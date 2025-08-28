@@ -6,6 +6,7 @@ import math
 WIDTH, HEIGHT = 600, 400
 NUM_PARTICLES = 50
 MOVE_SIZE = 2
+FADE_OUT = 10
 
 # Particle class
 # -- X and Y is set to a random number in the windows Width and Height
@@ -23,6 +24,10 @@ class Particle:
         # Calc the vertical distance to move, move the Y co-ord
         self.y += math.sin(self.angle) * MOVE_SIZE
 
+        # Contain particles within width and height of the screen, 0 and -1
+        self.x %= WIDTH
+        self.y %= HEIGHT
+
 
     # Surface is taken as argument, and a circle is drawn. Drawn in a radius of 1px
     def draw(self, surface):
@@ -36,6 +41,9 @@ def main():
     pygame.display.set_caption("Brownian Motion")
     clock = pygame.time.Clock() # Frame rate
 
+    # New surface
+    fading_surface = pygame.Surface((WIDTH, HEIGHT))
+
     # List Comprehension
     particles = [Particle() for _ in range(NUM_PARTICLES)]
 
@@ -48,12 +56,17 @@ def main():
             if event.type == pygame.QUIT:
                 run = False
 
+        # Fade out trailing lines of particles
+        fading_surface.fill((0,0,0, FADE_OUT))
+
         for p in particles:
             p.move()
-            p.draw(screen)
+            p.draw(fading_surface) # Draw particle as a fading surface
 
-
-        pygame.display.flip()
+        # -- Block Transfer. copy pixel from one surface to another
+        # Blit transfers drawing onto the screen every frame
+        screen.blit(fading_surface, (0, 0))
+        pygame.display.flip() # Updates the physical display
 
 
     pygame.quit()
