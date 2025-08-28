@@ -6,7 +6,7 @@ import math
 WIDTH, HEIGHT = 600, 400
 NUM_PARTICLES = 50
 MOVE_SIZE = 2
-FADE_OUT = 10
+
 
 # Particle class
 # -- X and Y is set to a random number in the windows Width and Height
@@ -56,14 +56,15 @@ def main():
             if event.type == pygame.QUIT:
                 run = False
 
-        # Fade out trailing lines of particles
-        fading_surface.fill((0,0,0, FADE_OUT))
+        # Fade out trailing lines of particles, keeps 1px particle
+        fading_surface.fill((0,0,0))
+
 
         for p in particles:
             p.move()
             p.draw(fading_surface) # Draw particle as a fading surface
 
-        # -- Block Transfer. copy pixel from one surface to another
+        # -- Block Transfer. copy pixel from one surface to another --
         # Blit transfers drawing onto the screen every frame
         screen.blit(fading_surface, (0, 0))
         pygame.display.flip() # Updates the physical display
