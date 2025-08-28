@@ -1,10 +1,11 @@
 import pygame
 import random
-
+import math
 
 
 WIDTH, HEIGHT = 600, 400
 NUM_PARTICLES = 50
+MOVE_SIZE = 2
 
 # Particle class
 # -- X and Y is set to a random number in the windows Width and Height
@@ -12,6 +13,16 @@ class Particle:
     def __init__(self):
         self.x = random.randint(0, WIDTH)
         self.y = random.randint(0, HEIGHT)
+        # dir: angle, math.pi * 2 is a full circle, rand.uniform picks number between 0 and a full circle
+        self.angle = random.uniform(0, math.pi * 2)
+
+    def move(self):
+
+        # Calc the horizontal distance to move, takes the angle and moves X co-ord
+        self.x += math.cos(self.angle) * MOVE_SIZE
+        # Calc the vertical distance to move, move the Y co-ord
+        self.y += math.sin(self.angle) * MOVE_SIZE
+
 
     # Surface is taken as argument, and a circle is drawn. Drawn in a radius of 1px
     def draw(self, surface):
@@ -25,6 +36,7 @@ def main():
     pygame.display.set_caption("Brownian Motion")
     clock = pygame.time.Clock() # Frame rate
 
+    # List Comprehension
     particles = [Particle() for _ in range(NUM_PARTICLES)]
 
     # Game loop
@@ -37,7 +49,9 @@ def main():
                 run = False
 
         for p in particles:
+            p.move()
             p.draw(screen)
+
 
         pygame.display.flip()
 
