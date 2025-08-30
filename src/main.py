@@ -28,6 +28,8 @@ class Particle:
         self.x %= WIDTH
         self.y %= HEIGHT
 
+        # Slight random turning
+        self.angle += random.uniform(-0.2, 0.2)
 
     # Surface is taken as argument, and a circle is drawn. Drawn in a radius of 1px
     def draw(self, surface):
@@ -43,6 +45,7 @@ def main():
 
     # New surface
     fading_surface = pygame.Surface((WIDTH, HEIGHT))
+    fading_surface.set_alpha(60) # Add fading to particles
 
     # List Comprehension
     particles = [Particle() for _ in range(NUM_PARTICLES)]
