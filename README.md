@@ -35,7 +35,14 @@ You need to have Python and the Pygame library installed.
 1.  Save the code as a Python file (e.g., `brownian_motion.py`).
 2.  Open your terminal or command prompt.
 3.  Navigate to the directory where you saved the file.
-4.  Run the script using the following command:
+4.  4.  Run the script using the following command:
+
+    ```bash
+    python brownian_motion.py
+    ```
+
+
+5.  Run the script using the following command:
 
 
     ```bas    python brownian_motion.py
